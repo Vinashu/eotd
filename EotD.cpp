@@ -3,6 +3,7 @@
 #include <locale.h>
 #include <stdlib.h>
 #include <time.h>
+#include <string.h>
 
 struct dado {
 	int qtd = 0;
@@ -10,13 +11,13 @@ struct dado {
 } DP, DB, DC;
 
 char tecla = ' ';
-int Zs=1, Zk=0, B=10, C=0, Ds=0;
+int Zs=0, Zk=0, B=10, C=0, Ds=0;
 
 void desenharTela(void);
 int lerTecla(int Ds);
 void gamePlay(int Ds);
 void clear(void);
-void rolarDados(dado *DD);
+void rolarDados(dado *DD, char* msg);
 void checarPortao(dado DP);
 void checarBarricada(dado DB);
 void checarCarro(dado DC);
@@ -84,9 +85,9 @@ void gamePlay(int Ds){
 		printf("\nO limite são 4 dados por turno!!!\n");
 	} else {
 		aumentarZs(&Zs, C);
-		rolarDados(&DP);		
-		rolarDados(&DB);
-		rolarDados(&DC);				
+		rolarDados(&DP,"Portão");		
+		rolarDados(&DB,"Barricada");
+		rolarDados(&DC,"Carro");				
 		checarPortao(DP);
 		checarBarricada(DB);
 		checarCarro(DC);
@@ -94,10 +95,10 @@ void gamePlay(int Ds){
 	system("pause");
 }
 
-void rolarDados(dado *DD){
+void rolarDados(dado *DD, char* msg){
 	for (int i = 0; i < (*DD).qtd; i++){
 		(*DD).Ds[i] = rand()%6 + 1;		
-		printf("Dado %d = %d\n", i+1, (*DD).Ds[i] );
+		printf("Dado %s \t %d = %d\n", msg, i+1, (*DD).Ds[i] );
 	}	
 }
 
